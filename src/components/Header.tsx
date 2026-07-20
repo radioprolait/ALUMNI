@@ -46,6 +46,9 @@ export default function Header() {
           </nav>
 
           <div className={styles.actions}>
+            <Link href="/admin" className={styles.adminLink} onClick={() => setMenuOpen(false)}>
+              Comisión
+            </Link>
             <Link href="/socios/hacerse-socio" className="btn-primary" onClick={() => setMenuOpen(false)}>
               Hacerse Socio
             </Link>

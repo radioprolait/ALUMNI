@@ -48,6 +48,31 @@
   gap: 2rem;
 }
 
+@media (min-width: 769px) {
+  .nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.adminLink {
+  font-weight: 500;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.adminLink:hover {
+  color: var(--color-primary);
+}
+
 .navLink {
   font-weight: 500;
   color: var(--color-text-main);
