@@ -1,19 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import MuxPlayer from '@mux/mux-player-react';
 import styles from './page.module.css';
 import { checkAccess } from './actions';
 
-export default function EnVivoPage() {
+function EnVivoContent() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [access, setAccess] = useState<{hasAccess: boolean, playbackId?: string | null, titulo?: string} | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // Si vuelve de Mercado Pago con status=success, comprobamos acceso
   useEffect(() => {
     const status = searchParams.get('status');
     const returnedEmail = searchParams.get('email');
@@ -62,7 +61,7 @@ export default function EnVivoPage() {
     return (
       <div className={styles.page}>
         <div className={styles.hero}>
-          <h1 className={styles.title}>🔴 EN VIVO</h1>
+          <h1 className={styles.titleLive}>🔴 EN VIVO</h1>
           <p className={styles.subtitle}>{access.titulo}</p>
         </div>
         <div className={styles.playerContainer}>
@@ -129,5 +128,13 @@ export default function EnVivoPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function EnVivoPage() {
+  return (
+    <Suspense fallback={<div style={{color: 'white', padding: '4rem', textAlign: 'center'}}>Cargando transmisión...</div>}>
+      <EnVivoContent />
+    </Suspense>
   );
 }
