@@ -1,0 +1,70 @@
+.page {
+  padding: 0;
+}
+
+.hero {
+  background-color: var(--color-surface);
+  padding: 4rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--color-text-main);
+  text-align: center;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+@media (max-width: 768px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoCard {
+  background: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.infoCard h3 {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.infoCard p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}

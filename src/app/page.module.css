@@ -1,0 +1,200 @@
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  position: relative;
+  height: 80vh;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Dark geometric background fallback */
+  background-color: var(--color-text-main);
+  background-image: radial-gradient(circle at center, #1a202c 0%, #000000 100%);
+  color: white;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -1px;
+}
+
+.highlight {
+  color: var(--color-primary);
+  display: block;
+}
+
+.subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: #D1D5DB;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+
+.heroActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnSecondary {
+  background-color: transparent;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnSecondary:hover {
+  background-color: white;
+  color: var(--color-text-main);
+}
+
+/* Sports Section */
+.sportsSection {
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--color-text-main);
+}
+
+.sportsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.sportCard {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.sportCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+.sportCardImage {
+  height: 200px;
+  background-color: var(--color-border);
+  background-size: cover;
+  background-position: center;
+}
+
+.futbolBg {
+  background-image: url('/images/futbol.png');
+}
+
+.basquetBg {
+  background-image: url('/images/basquet.png');
+}
+
+.padelBg {
+  background-image: url('/images/padel.png');
+}
+
+.paletaBg {
+  background-image: url('/images/paleta.png');
+}
+
+.sportCardContent {
+  padding: 1.5rem;
+}
+
+.sportCardContent h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-main);
+}
+
+.sportCardContent p {
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Live Section */
+.liveSection {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.liveContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.liveContent h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.liveContent p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.btnLive {
+  display: inline-block;
+  background-color: white;
+  color: var(--color-primary);
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btnLive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
