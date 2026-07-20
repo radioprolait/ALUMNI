@@ -17,7 +17,6 @@ export async function POST(request: Request) {
       transmision = await prisma.transmision.create({
         data: {
           titulo: 'Alumni vs. Clásico Rival (Demo)',
-          link_prisma: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Placeholder
           precio: 1500,
           activa: true,
         }
