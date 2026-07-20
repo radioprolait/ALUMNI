@@ -1,12 +1,16 @@
 // @ts-ignore
 import { PrismaClient } from '../../node_modules/.prisma/client/index.js';
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
+const connectionString = process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/postgres";
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+
 export const prisma =
   globalForPrisma.prisma ||
-  new PrismaClient({
-    log: ['query'],
-  });
+  new PrismaClient({ adapter, log: ['query'] });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
