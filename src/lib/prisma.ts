@@ -1,5 +1,4 @@
-// @ts-ignore
-import { PrismaClient } from '../../node_modules/.prisma/client/index.js';
+import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 
