@@ -12,6 +12,17 @@ export async function getSocios() {
   return await prisma.socio.findMany({ orderBy: { createdAt: 'desc' } });
 }
 
+export async function toggleEstadoSocio(id: number, estadoActual: string) {
+  const { prisma } = await import('@/lib/prisma');
+  const nuevoEstado = estadoActual === 'ACTIVO' ? 'PENDIENTE' : 'ACTIVO';
+  await prisma.socio.update({
+    where: { id },
+    data: { estado: nuevoEstado }
+  });
+  revalidatePath('/admin');
+  return nuevoEstado;
+}
+
 export async function getTransmisiones() {
   const { prisma } = await import('@/lib/prisma');
   return await prisma.transmision.findMany({ orderBy: { createdAt: 'desc' } });

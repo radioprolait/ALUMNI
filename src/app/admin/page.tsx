@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import { verifyAdmin, getSocios, getTransmisiones, createTransmisionMux } from './actions';
+import { verifyAdmin, getSocios, getTransmisiones, createTransmisionMux, toggleEstadoSocio } from './actions';
 import MuxPlayer from '@mux/mux-player-react';
 
 export default function AdminPage() {
@@ -48,6 +48,11 @@ export default function AdminPage() {
       alert('Error: ' + res.error);
     }
     setLoading(false);
+  };
+
+  const handleToggleEstado = async (id: number, estadoActual: string) => {
+    await toggleEstadoSocio(id, estadoActual);
+    loadData();
   };
 
   if (!isAuthenticated) {
@@ -154,7 +159,23 @@ export default function AdminPage() {
                     <td>{s.email}</td>
                     <td>{s.telefono}</td>
                     <td>{s.deporte || 'Institucional'}</td>
-                    <td>{s.estado}</td>
+                    <td>
+                      <button 
+                        onClick={() => handleToggleEstado(s.id, s.estado)}
+                        style={{ 
+                          padding: '4px 8px', 
+                          borderRadius: '4px', 
+                          border: 'none', 
+                          cursor: 'pointer',
+                          backgroundColor: s.estado === 'ACTIVO' ? 'var(--color-primary)' : '#888',
+                          color: '#fff',
+                          fontWeight: 'bold',
+                          fontSize: '0.8rem'
+                        }}
+                      >
+                        {s.estado}
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
