@@ -1,5 +1,4 @@
 'use server';
-import Mux from '@mux/mux-node';
 import { revalidatePath } from 'next/cache';
 
 export async function verifyAdmin(password: string) {
@@ -28,45 +27,23 @@ export async function getTransmisiones() {
   return await prisma.transmision.findMany({ orderBy: { createdAt: 'desc' } });
 }
 
-export async function createTransmisionMux(titulo: string, precio: number) {
+export async function createTransmisionYouTube(titulo: string, precio: number, youtube_id: string) {
   try {
-    const mux = new Mux({
-      tokenId: process.env.MUX_TOKEN_ID || 'dummy_id',
-      tokenSecret: process.env.MUX_TOKEN_SECRET || 'dummy_secret',
-    });
-
-    // 1. Create Live Stream in Mux
-    let stream_id = 'mock_stream_id';
-    let stream_key = 'mock_stream_key_123';
-    let playback_id = 'mock_playback_id';
-
-    // In a real environment with real keys:
-    if (process.env.MUX_TOKEN_ID && process.env.MUX_TOKEN_ID !== 'test_token_id') {
-      const liveStream = await mux.video.liveStreams.create({
-        playback_policy: ['public'],
-        new_asset_settings: { playback_policy: ['public'] },
-      });
-      stream_id = liveStream.id;
-      stream_key = liveStream.stream_key || '';
-      playback_id = liveStream.playback_ids?.[0]?.id || '';
-    }
-
-    // 2. Disable old transmissions
     const { prisma } = await import('@/lib/prisma');
+    
+    // Disable old transmissions
     await prisma.transmision.updateMany({
       where: { activa: true },
       data: { activa: false },
     });
 
-    // 3. Save new transmission in DB
+    // Save new transmission in DB
     const trans = await prisma.transmision.create({
       data: {
         titulo,
         precio,
         activa: true,
-        mux_stream_id: stream_id,
-        mux_stream_key: stream_key,
-        mux_playback_id: playback_id,
+        youtube_id,
       }
     });
 

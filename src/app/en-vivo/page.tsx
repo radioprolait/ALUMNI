@@ -2,14 +2,13 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import MuxPlayer from '@mux/mux-player-react';
 import styles from './page.module.css';
 import { checkAccess } from './actions';
 
 function EnVivoContent() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [access, setAccess] = useState<{hasAccess: boolean, playbackId?: string | null, titulo?: string} | null>(null);
+  const [access, setAccess] = useState<{hasAccess: boolean, youtube_id?: string | null, titulo?: string} | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -65,14 +64,15 @@ function EnVivoContent() {
           <p className={styles.subtitle}>{access.titulo}</p>
         </div>
         <div className={styles.playerContainer}>
-          {access.playbackId ? (
-            <MuxPlayer
-              streamType="live"
-              playbackId={access.playbackId}
-              metadata={{ video_title: access.titulo }}
-              primaryColor="#E32636"
-              secondaryColor="#ffffff"
-            />
+          {access.youtube_id ? (
+            <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '1000px', margin: '0 auto' }}>
+              <iframe 
+                src={`https://www.youtube.com/embed/${access.youtube_id}?autoplay=1`}
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </div>
           ) : (
             <div style={{color: 'white', textAlign: 'center', padding: '4rem'}}>
               <h2>Señal en preparación...</h2>

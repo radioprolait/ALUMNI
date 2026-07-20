@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import { verifyAdmin, getSocios, getTransmisiones, createTransmisionMux, toggleEstadoSocio } from './actions';
-import MuxPlayer from '@mux/mux-player-react';
+import { verifyAdmin, getSocios, getTransmisiones, createTransmisionYouTube, toggleEstadoSocio } from './actions';
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -13,6 +12,7 @@ export default function AdminPage() {
   
   const [titulo, setTitulo] = useState('');
   const [precio, setPrecio] = useState(6000);
+  const [youtubeId, setYoutubeId] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -37,12 +37,13 @@ export default function AdminPage() {
 
   const handleCreateTransmision = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!titulo || !precio) return;
+    if (!titulo || !precio || !youtubeId) return;
     setLoading(true);
-    const res = await createTransmisionMux(titulo, Number(precio));
+    const res = await createTransmisionYouTube(titulo, Number(precio), youtubeId);
     if (res.success) {
       alert('Transmisión creada exitosamente');
       setTitulo('');
+      setYoutubeId('');
       loadData();
     } else {
       alert('Error: ' + res.error);
@@ -83,18 +84,19 @@ export default function AdminPage() {
         <section className={styles.card}>
           <h2>Transmisiones en Vivo</h2>
           
-          {transmisiones.find(t => t.activa) && (
+          {transmisiones.find(t => t.activa) && transmisiones.find(t => t.activa).youtube_id && (
             <div style={{ background: '#000', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', textAlign: 'center' }}>
               <h3 style={{ color: '#fff', marginBottom: '1rem' }}>📺 Monitor de Transmisión (Preview)</h3>
-              <MuxPlayer 
-                playbackId={transmisiones.find(t => t.activa)?.mux_playback_id || 'mock_playback'}
-                metadata={{ video_title: 'Admin Preview' }}
-                streamType="live"
-                autoPlay="muted"
-                style={{ width: '100%', maxWidth: '600px', aspectRatio: '16/9', margin: '0 auto' }}
-              />
+              <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '600px', margin: '0 auto' }}>
+                <iframe 
+                  src={`https://www.youtube.com/embed/${transmisiones.find(t => t.activa).youtube_id}`}
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                ></iframe>
+              </div>
               <p style={{ color: '#ccc', fontSize: '0.85rem', marginTop: '1rem' }}>
-                Acá podés chequear que el video y el sonido estén entrando bien antes de que lo vea la gente.
+                Acá podés chequear que el video de YouTube esté entrando bien antes de que lo vea la gente.
               </p>
             </div>
           )}
@@ -104,8 +106,9 @@ export default function AdminPage() {
             <div className={styles.formRow}>
               <input type="text" placeholder="Título (ej: Alumni vs...)" value={titulo} onChange={e => setTitulo(e.target.value)} required />
               <input type="number" placeholder="Precio ($)" value={precio} onChange={e => setPrecio(Number(e.target.value))} required />
+              <input type="text" placeholder="YouTube Video ID (ej: dQw4w9WgXcQ)" value={youtubeId} onChange={e => setYoutubeId(e.target.value)} required />
               <button type="submit" className="btn-primary" disabled={loading}>
-                {loading ? 'Creando...' : 'Crear en Mux'}
+                {loading ? 'Creando...' : 'Crear Transmisión'}
               </button>
             </div>
           </form>
@@ -117,8 +120,7 @@ export default function AdminPage() {
                   <th>Estado</th>
                   <th>Título</th>
                   <th>Precio</th>
-                  <th>RTMP URL</th>
-                  <th>Stream Key (Prisma Live)</th>
+                  <th>YouTube ID</th>
                 </tr>
               </thead>
               <tbody>
@@ -127,8 +129,7 @@ export default function AdminPage() {
                     <td>{t.activa ? '🔴 ACTIVA' : 'Inactiva'}</td>
                     <td>{t.titulo}</td>
                     <td>${t.precio}</td>
-                    <td><code className={styles.code}>rtmps://global-live.mux.com:443/app</code></td>
-                    <td><code className={styles.code}>{t.mux_stream_key || 'N/A'}</code></td>
+                    <td><code className={styles.code}>{t.youtube_id || 'N/A'}</code></td>
                   </tr>
                 ))}
               </tbody>

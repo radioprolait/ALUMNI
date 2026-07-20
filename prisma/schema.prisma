@@ -29,10 +29,8 @@ model Transmision {
   precio          Float
   activa          Boolean  @default(false)
   
-  // Mux Integration Fields
-  mux_stream_id   String?
-  mux_stream_key  String?
-  mux_playback_id String?
+  // YouTube Integration Fields
+  youtube_id      String?
   
   pagos           Pago[]
   createdAt       DateTime @default(now())

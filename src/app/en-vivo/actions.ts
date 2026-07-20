@@ -22,7 +22,7 @@ export async function checkAccess(email: string) {
   if (pago && (pago.estado === 'APPROVED' || pago.estado === 'PENDING')) {
     return { 
       hasAccess: true, 
-      playbackId: transmision.mux_playback_id, 
+      youtube_id: transmision.youtube_id, 
       titulo: transmision.titulo 
     };
   }
