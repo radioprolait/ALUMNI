@@ -9,7 +9,7 @@ import { checkAccess } from './actions';
 export default function EnVivoPage() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [access, setAccess] = useState<{hasAccess: boolean, playbackId?: string, titulo?: string} | null>(null);
+  const [access, setAccess] = useState<{hasAccess: boolean, playbackId?: string | null, titulo?: string} | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
